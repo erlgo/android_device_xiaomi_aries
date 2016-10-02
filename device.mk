@@ -310,7 +310,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Snap Camera
 PRODUCT_PACKAGES += \
-	Snap
+	Camera2
 
 # Unbreak videorecording with Snap Camera
 PRODUCT_PROPERTY_OVERRIDES += \
