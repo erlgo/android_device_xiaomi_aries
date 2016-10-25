@@ -179,7 +179,6 @@ void set_hdmi_node_perms()
 static int check_rlim_action()
 {
     string pval;
-    int rc;
     struct rlimit rl;
     pval = property_get("persist.debug.trace");
 
