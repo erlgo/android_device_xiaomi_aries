@@ -1,5 +1,6 @@
 #
 # Copyright (C) 2011 The Android Open-Source Project
+# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,7 +40,7 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 # Inline kernel building
 TARGET_KERNEL_ARCH := arm
 TARGET_KERNEL_SOURCE := kernel/xiaomi/aries
-TARGET_KERNEL_CONFIG := cyanogen_aries_defconfig
+TARGET_KERNEL_CONFIG := lineageos_aries_defconfig
 KERNEL_TOOLCHAIN := "$(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-eabi-5.3/bin/"
 KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
 
