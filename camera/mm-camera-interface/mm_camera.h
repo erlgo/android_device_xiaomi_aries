@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2011-2012,2015, The Linux Foundation. All rights reserved.
+Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -58,6 +58,7 @@ typedef enum {
     MM_CAMERA_STATE_EVT_GET_CROP,
     MM_CAMERA_STATE_EVT_DISPATCH_BUFFERED_FRAME,
     MM_CAMERA_STATE_EVT_REQUEST_BUF, // request amount of buffers to kernel only
+    MM_CAMERA_STATE_EVT_ENQUEUE_BUF, // enqueue some of buffers to kernel only
     MM_CAMERA_STATE_EVT_MAX
 } mm_camera_state_evt_type_t;
 
@@ -87,6 +88,7 @@ typedef enum {
     MM_CAMERA_STREAM_THUMBNAIL,
     MM_CAMERA_STREAM_RAW,
     MM_CAMERA_STREAM_VIDEO_MAIN,
+    MM_CAMERA_STREAM_RDI0,
     MM_CAMERA_STREAM_MAX
 } mm_camera_stream_type_t;
 
@@ -113,7 +115,7 @@ typedef struct {
     mm_camera_frame_queue_t readyq;
     int32_t num_frame;
     uint32_t frame_len;
-    int8_t reg_flag[MM_CAMERA_MAX_NUM_FRAMES];
+    int8_t reg_flag;
     uint32_t frame_offset[MM_CAMERA_MAX_NUM_FRAMES];
     mm_camera_frame_t frame[MM_CAMERA_MAX_NUM_FRAMES];
     int8_t ref_count[MM_CAMERA_MAX_NUM_FRAMES];
@@ -139,6 +141,10 @@ typedef struct {
 typedef struct {
     mm_camera_stream_t stream;
 } mm_camera_ch_preview_t;
+
+typedef struct {
+    mm_camera_stream_t stream;
+} mm_camera_ch_rdi_t;
 
 typedef struct {
     mm_camera_stream_t thumbnail;
@@ -174,6 +180,7 @@ typedef struct {
         mm_camera_ch_preview_t preview;
         mm_camera_ch_snapshot_t snapshot;
         mm_camera_ch_video_t video;
+        mm_camera_ch_rdi_t rdi;
     };
 } mm_camera_ch_t;
 
@@ -256,6 +263,7 @@ typedef struct {
     mm_camera_mem_map_t hist_mem_map;
     int full_liveshot;
     int snap_burst_num_by_user;
+    uint32_t channel_interface_mask;
 } mm_camera_obj_t;
 
 #define MM_CAMERA_DEV_NAME_LEN 32
@@ -280,8 +288,6 @@ extern int32_t mm_camera_stream_fsm_fn_vtbl (mm_camera_obj_t * my_obj,
 extern const char *mm_camera_util_get_dev_name(mm_camera_obj_t * my_obj);
 extern int32_t mm_camera_util_s_ctrl( int32_t fd,
                                             uint32_t id, int32_t value);
-extern int32_t mm_camera_util_private_s_ctrl( int32_t fd,
-                                            uint32_t id, int32_t value);
 extern int32_t mm_camera_util_g_ctrl( int32_t fd,
                                             uint32_t id, int32_t *value);
 extern int32_t mm_camera_ch_fn(mm_camera_obj_t * my_obj,
@@ -301,6 +307,7 @@ extern int32_t mm_camera_get_parm(mm_camera_obj_t * my_obj,
 extern int32_t mm_camera_set_parm(mm_camera_obj_t * my_obj,
                                             mm_camera_parm_t *parm);
 extern int32_t mm_camera_request_buf(mm_camera_obj_t * my_obj, mm_camera_reg_buf_t *buf);
+extern int32_t mm_camera_enqueue_buf(mm_camera_obj_t * my_obj, mm_camera_reg_buf_t *buf);
 extern int32_t mm_camera_prepare_buf(mm_camera_obj_t * my_obj, mm_camera_reg_buf_t *buf);
 extern int32_t mm_camera_unprepare_buf(mm_camera_obj_t * my_obj, mm_camera_channel_type_t ch_type);
 extern int mm_camera_poll_thread_launch(mm_camera_obj_t * my_obj, int ch_type);

@@ -56,17 +56,17 @@ ifeq ($(USE_DEVICE_SPECIFIC_CAMERA),true)
             QCameraHWI.cpp QCameraHWI_Preview.cpp \
             QCameraHWI_Record_7x27A.cpp QCameraHWI_Still.cpp \
             QCameraHWI_Mem.cpp QCameraHWI_Display.cpp \
-            QCameraStream.cpp QualcommCamera2.cpp QCameraParameters.cpp
+            QCameraStream.cpp QualcommCamera2.cpp QCameraHWI_Rdi.cpp QCameraParameters.cpp
         else
           LOCAL_HAL_FILES := QCameraHAL.cpp QCameraHWI_Parm.cpp\
             QCameraHWI.cpp QCameraHWI_Preview.cpp \
             QCameraHWI_Record.cpp QCameraHWI_Still.cpp \
             QCameraHWI_Mem.cpp QCameraHWI_Display.cpp \
-            QCameraStream.cpp QualcommCamera2.cpp QCameraParameters.cpp
+            QCameraStream.cpp QualcommCamera2.cpp QCameraHWI_Rdi.cpp QCameraParameters.cpp
         endif
 
       else
-        LOCAL_HAL_FILES := QualcommCamera.cpp QualcommCameraHardware.cpp
+        LOCAL_HAL_FILES := QualcommCamera.cpp QualcommCameraHardware.cpp QCameraParameters.cpp
       endif
 
       LOCAL_CFLAGS+= -DHW_ENCODE
@@ -128,12 +128,6 @@ ifeq ($(USE_DEVICE_SPECIFIC_CAMERA),true)
 ifeq ($(V4L2_BASED_LIBCAM),true)
 include $(LOCAL_PATH)/mm-camera-interface/Android.mk
 endif
-
-#Enable only to compile new interafece and HAL files.
-ifeq ($(V4L2_BASED_LIBCAM),true)
-#include $(LOCAL_PATH1)/QCamera/Android.mk
-endif
-
 endif # USE_CAMERA_STUB
 endif
 endif

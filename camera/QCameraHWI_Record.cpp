@@ -1,5 +1,5 @@
 /*
-** Copyright (c) 2011,2015 The Linux Foundation. All rights reserved.
+** Copyright (c) 2011 The Linux Foundation. All rights reserved.
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -282,6 +282,9 @@ void QCameraStream_record::stop()
 
   releaseEncodeBuffer();
 
+  if(mHalCamCtrl->mVideoStabilization)
+    mHalCamCtrl->LINK_morpho_MovieSolid_Finalize();
+
   mActive = false;
   ALOGV("%s: END", __func__);
 
@@ -319,6 +322,12 @@ status_t QCameraStream_record::processRecordFrame(void *data)
 {
     ALOGV("%s : BEGIN",__func__);
     mm_camera_ch_data_buf_t* frame = (mm_camera_ch_data_buf_t*) data;
+
+    if(mHalCamCtrl->mVideoStabilization)
+      mHalCamCtrl->LINK_morpho_MovieSolid_Function(
+        (void*)frame->video.video.frame->buffer + frame->video.video.frame->y_off,
+        (void*)frame->video.video.frame->buffer + frame->video.video.frame->cbcr_off
+      );
 
     Mutex::Autolock lock(mStopCallbackLock);
     if(!mActive) {
@@ -407,6 +416,9 @@ status_t QCameraStream_record::initEncodeBuffers()
   planes[0] = dim.video_frame_offset.mp[0].len;
   planes[1] = dim.video_frame_offset.mp[1].len;
   frame_len = dim.video_frame_offset.frame_len;
+
+  if(mHalCamCtrl->mVideoStabilization)
+    mHalCamCtrl->LINK_morpho_MovieSolid_Init(dim.video_height, dim.video_width);
 
   buf_cnt = VIDEO_BUFFER_COUNT;
   if(mHalCamCtrl->isLowPowerCamcorder()) {
@@ -506,8 +518,6 @@ status_t QCameraStream_record::initEncodeBuffers()
           mRecordBuf.video.video.buf.mp[cnt].planes[j-1].reserved[0] +
           mRecordBuf.video.video.buf.mp[cnt].planes[j-1].length;
       }
-
-      mRecordBuf.video.video.no_enqueue_flag[cnt] = 0;
     }
 
     //memset(&mRecordBuf, 0, sizeof(mRecordBuf));

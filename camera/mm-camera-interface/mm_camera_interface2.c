@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2011-2012,2015, The Linux Foundation. All rights reserved.
+Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -57,6 +57,8 @@ static int mm_camera_util_opcode_2_ch_type(mm_camera_obj_t *my_obj,
     switch(opcode) {
     case MM_CAMERA_OPS_PREVIEW:
         return MM_CAMERA_CH_PREVIEW;
+    case MM_CAMERA_OPS_RDI:
+        return MM_CAMERA_CH_RDI;
     case MM_CAMERA_OPS_ZSL:
     case MM_CAMERA_OPS_SNAPSHOT:
         return MM_CAMERA_CH_SNAPSHOT;
@@ -113,6 +115,7 @@ static uint8_t mm_camera_cfg_is_ch_supported (mm_camera_t * camera,
     case MM_CAMERA_CH_VIDEO:
     case MM_CAMERA_CH_SNAPSHOT:
     case MM_CAMERA_CH_RAW:
+    case MM_CAMERA_CH_RDI:
         return TRUE;
     case MM_CAMERA_CH_MAX:
     default:
@@ -181,6 +184,24 @@ static int32_t mm_camera_cfg_request_buf(mm_camera_t * camera,
     return rc;
 }
 
+static int32_t mm_camera_cfg_enqueue_buf(mm_camera_t * camera,
+                                         mm_camera_reg_buf_t *buf)
+{
+    int32_t rc = -MM_CAMERA_E_GENERAL;
+    uint32_t tmp;
+    mm_camera_obj_t * my_obj = NULL;
+
+    pthread_mutex_lock(&g_mutex);
+    my_obj = g_cam_ctrl.cam_obj[camera->camera_info.camera_id];
+    pthread_mutex_unlock(&g_mutex);
+    if(my_obj) {
+        pthread_mutex_lock(&my_obj->mutex);
+        rc =  mm_camera_enqueue_buf(my_obj, buf);
+        pthread_mutex_unlock(&my_obj->mutex);
+    }
+    return rc;
+}
+
 static int32_t mm_camera_cfg_prepare_buf(mm_camera_t * camera,
                                          mm_camera_reg_buf_t *buf)
 {
@@ -222,6 +243,7 @@ static mm_camera_config_t mm_camera_cfg = {
   .set_parm = mm_camera_cfg_set_parm,
   .get_parm = mm_camera_cfg_get_parm,
   .request_buf = mm_camera_cfg_request_buf,
+  .enqueue_buf = mm_camera_cfg_enqueue_buf,
   .prepare_buf = mm_camera_cfg_prepare_buf,
   .unprepare_buf = mm_camera_cfg_unprepare_buf
 };
@@ -776,6 +798,17 @@ int32_t cam_config_request_buf(int cam_id, mm_camera_reg_buf_t *buf)
   mm_camera_t * mm_cam = get_camera_by_id(cam_id);
   if (mm_cam) {
     rc = mm_cam->cfg->request_buf(mm_cam, buf);
+  }
+  return rc;
+}
+
+int32_t cam_config_enqueue_buf(int cam_id, mm_camera_reg_buf_t *buf)
+{
+
+  int32_t rc = -1;
+  mm_camera_t * mm_cam = get_camera_by_id(cam_id);
+  if (mm_cam) {
+    rc = mm_cam->cfg->enqueue_buf(mm_cam, buf);
   }
   return rc;
 }
