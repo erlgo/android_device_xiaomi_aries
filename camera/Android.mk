@@ -56,13 +56,13 @@ ifeq ($(USE_DEVICE_SPECIFIC_CAMERA),true)
             QCameraHWI.cpp QCameraHWI_Preview.cpp \
             QCameraHWI_Record_7x27A.cpp QCameraHWI_Still.cpp \
             QCameraHWI_Mem.cpp QCameraHWI_Display.cpp \
-            QCameraStream.cpp QualcommCamera2.cpp QCameraHWI_Rdi.cpp QCameraParameters.cpp
+            QCameraStream.cpp QualcommCamera2.cpp QCameraParameters.cpp
         else
           LOCAL_HAL_FILES := QCameraHAL.cpp QCameraHWI_Parm.cpp\
             QCameraHWI.cpp QCameraHWI_Preview.cpp \
             QCameraHWI_Record.cpp QCameraHWI_Still.cpp \
             QCameraHWI_Mem.cpp QCameraHWI_Display.cpp \
-            QCameraStream.cpp QualcommCamera2.cpp QCameraHWI_Rdi.cpp QCameraParameters.cpp
+            QCameraStream.cpp QualcommCamera2.cpp QCameraParameters.cpp
         endif
 
       else
