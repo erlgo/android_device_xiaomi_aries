@@ -4194,7 +4194,7 @@ void QCameraHardwareInterface::initExifData(){
         ALOGE("%s: getExifModel failed", __func__);
     }
 
-    if(mExifValues.dateTime) {
+    if(strlen(mExifValues.dateTime) > 0) {
         addExifTag(EXIFTAGID_EXIF_DATE_TIME_ORIGINAL, EXIF_ASCII,
                 20, 1, (void *)mExifValues.dateTime);
         addExifTag(EXIFTAGID_EXIF_DATE_TIME_DIGITIZED, EXIF_ASCII,
@@ -4219,7 +4219,7 @@ void QCameraHardwareInterface::initExifData(){
     if(mExifValues.mLatitude) {
         addExifTag(EXIFTAGID_GPS_LATITUDE, EXIF_RATIONAL, 3, 1, (void *)mExifValues.latitude);
 
-        if(mExifValues.latRef) {
+        if(strlen(mExifValues.latRef) > 0) {
             addExifTag(EXIFTAGID_GPS_LATITUDE_REF, EXIF_ASCII, 2,
                     1, (void *)mExifValues.latRef);
         }
@@ -4228,7 +4228,7 @@ void QCameraHardwareInterface::initExifData(){
     if(mExifValues.mLongitude) {
         addExifTag(EXIFTAGID_GPS_LONGITUDE, EXIF_RATIONAL, 3, 1, (void *)mExifValues.longitude);
 
-        if(mExifValues.lonRef) {
+        if(strlen(mExifValues.lonRef) > 0) {
             addExifTag(EXIFTAGID_GPS_LONGITUDE_REF, EXIF_ASCII, 2,
                     1, (void *)mExifValues.lonRef);
         }
