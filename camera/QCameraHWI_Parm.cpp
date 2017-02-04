@@ -3357,7 +3357,7 @@ status_t QCameraHardwareInterface::setCaptureBurstExp()
     char burst_exp[PROPERTY_VALUE_MAX];
     memset(burst_exp, 0, sizeof(burst_exp));
     property_get("persist.capture.burst.exposures", burst_exp, "");
-    if (NULL != burst_exp)
+    if (burst_exp[0] != '\0')
       mParameters.set("capture-burst-exposures", burst_exp);
     return NO_ERROR;
 }
