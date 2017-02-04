@@ -26,8 +26,8 @@ LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 #	$(call project-path-for,qcom-audio)/hal/$(TARGET_BOARD_PLATFORM) \
 #	$(call project-path-for,qcom-audio)/hal/audio_extn
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
-LOCAL_C_INCLUDES += hardware/qcom/audio-caf/es310/alsa_sound
-LOCAL_C_INCLUDES += hardware/qcom/audio-caf/es310/libalsa-intf
+LOCAL_C_INCLUDES += hardware/qcom/audio-caf/msm8960/alsa_sound
+LOCAL_C_INCLUDES += hardware/qcom/audio-caf/msm8960/libalsa-intf
 
 ifeq ($(strip $(BOARD_USES_QCOM_HARDWARE)),true)
     LOCAL_CFLAGS += -DAUDIO_CAF
