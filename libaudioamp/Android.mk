@@ -17,14 +17,17 @@ LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 
 # audio HAL includes
-LOCAL_C_INCLUDES += \
-	external/tinyalsa/include \
-	external/tinycompress/include \
-	$(call include-path-for, audio-route) \
-	$(call include-path-for, audio-effects) \
-	$(call project-path-for,qcom-audio)/hal \
-	$(call project-path-for,qcom-audio)/hal/$(TARGET_BOARD_PLATFORM) \
-	$(call project-path-for,qcom-audio)/hal/audio_extn
+#LOCAL_C_INCLUDES += \
+#	external/tinyalsa/include \
+#	external/tinycompress/include \
+#	$(call include-path-for, audio-route) \
+#	$(call include-path-for, audio-effects) \
+#	$(call project-path-for,qcom-audio)/hal \
+#	$(call project-path-for,qcom-audio)/hal/$(TARGET_BOARD_PLATFORM) \
+#	$(call project-path-for,qcom-audio)/hal/audio_extn
+LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+LOCAL_C_INCLUDES += hardware/qcom/audio-caf/es310/alsa_sound
+LOCAL_C_INCLUDES += hardware/qcom/audio-caf/es310/libalsa-intf
 
 ifeq ($(strip $(BOARD_USES_QCOM_HARDWARE)),true)
     LOCAL_CFLAGS += -DAUDIO_CAF
