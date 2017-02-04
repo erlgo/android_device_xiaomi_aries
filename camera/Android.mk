@@ -56,13 +56,13 @@ ifeq ($(USE_DEVICE_SPECIFIC_CAMERA),true)
             QCameraHWI.cpp QCameraHWI_Preview.cpp \
             QCameraHWI_Record_7x27A.cpp QCameraHWI_Still.cpp \
             QCameraHWI_Mem.cpp QCameraHWI_Display.cpp \
-            QCameraStream.cpp QualcommCamera2.cpp
+            QCameraStream.cpp QualcommCamera2.cpp QCameraHWI_Rdi.cpp QCameraParameters.cpp
         else
           LOCAL_HAL_FILES := QCameraHAL.cpp QCameraHWI_Parm.cpp\
             QCameraHWI.cpp QCameraHWI_Preview.cpp \
             QCameraHWI_Record.cpp QCameraHWI_Still.cpp \
             QCameraHWI_Mem.cpp QCameraHWI_Display.cpp \
-            QCameraStream.cpp QualcommCamera2.cpp QCameraParameters.cpp
+            QCameraStream.cpp QualcommCamera2.cpp QCameraHWI_Rdi.cpp QCameraParameters.cpp
         endif
 
       else
@@ -89,12 +89,12 @@ ifeq ($(USE_DEVICE_SPECIFIC_CAMERA),true)
       #LOCAL_CFLAGS+= -DCAMERA_SMOOTH_ZOOM
 
       ifeq ($(V4L2_BASED_LIBCAM),true)
-        LOCAL_C_INCLUDES+= hardware/qcom/media/mm-core/inc
+        LOCAL_C_INCLUDES+= $(call project-path-for,qcom-media)/mm-core/inc
         LOCAL_C_INCLUDES+= $(LOCAL_PATH)/mm-camera-interface
       endif
 
-      LOCAL_C_INCLUDES+= $(call project-path-for,qcom-display)/$(TARGET_BOARD_PLATFORM)/libgralloc
-      LOCAL_C_INCLUDES+= $(call project-path-for,qcom-display)/$(TARGET_BOARD_PLATFORM)/libgenlock
+      LOCAL_C_INCLUDES+= $(call project-path-for,qcom-display)/libgralloc
+      LOCAL_C_INCLUDES+= $(call project-path-for,qcom-display)/libgenlock
       LOCAL_C_INCLUDES+= frameworks/native/include/media/hardware
       LOCAL_C_INCLUDES+= $(call project-path-for,qcom-media)/libstagefrighthw
 
@@ -109,7 +109,7 @@ ifeq ($(USE_DEVICE_SPECIFIC_CAMERA),true)
          LOCAL_SHARED_LIBRARIES:= libutils libui libcamera_client liblog libcamera_metadata libcutils libmmjpeg
       endif
 
-      LOCAL_SHARED_LIBRARIES+= libgenlock libbinder
+      LOCAL_SHARED_LIBRARIES+= libgenlock libbinder libhardware
       ifneq ($(DLOPEN_LIBMMCAMERA),1)
         LOCAL_SHARED_LIBRARIES+= liboemcamera
       else
