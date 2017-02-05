@@ -105,6 +105,8 @@ TARGET_USES_C2D_COMPOSITION := false
 TARGET_DISPLAY_USE_RETIRE_FENCE := true
 
 # Enable dex-preoptimization to speed up first boot sequence
+WITH_DEXPREOPT_BOOT_IMG_ONLY ?= false
+WITH_DEXPREOPT := false
 ifeq ($(HOST_OS),linux)
   ifeq ($(TARGET_BUILD_VARIANT),user)
     ifeq ($(WITH_DEXPREOPT),)
@@ -112,7 +114,7 @@ ifeq ($(HOST_OS),linux)
     endif
   endif
 endif
-WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
+DONT_DEXPREOPT_PREBUILTS := true
 
 
 #for ota
