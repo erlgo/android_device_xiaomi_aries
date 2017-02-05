@@ -1,4 +1,24 @@
-# Grant access to Qualcomm MSM Interface (QMI) radio sockets to RILD
-qmux_socket(rild)
+allow rild { efs_file }:file rw_file_perms;
+allow rild self:netlink_socket { create bind read write };
+allow rild self:netlink_route_socket { write };
+allow rild sysfs:file { read open write getattr };
+allow rild device:chr_file ioctl;
+allow rild self:netlink_kobject_uevent_socket { create bind read write setopt };
+allow rild radio_device:chr_file rw_file_perms;
+#allow rild efs_block_device:blk_file rw_file_perms;
+allow rild efs_file:file { read open write setattr };
+allow rild proc_net:file write;
+allow rild block_device:dir search;
 
-allow rild self:process execmem;
+
+allow rild unlabeled:file { open read write getattr setattr unlink };
+
+allow rild unlabeled:dir { search };
+
+allow rild unlabeled:file { open read getattr };
+
+allow rild mediaserver:dir { search };
+
+allow rild mediaserver:file { open read write getattr };
+allow rild logdr_socket:sock_file { write };
+allow rild logd:unix_stream_socket { connectto read write };

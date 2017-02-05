@@ -1,0 +1,4 @@
+# mm-qcamera-daem need exemod
+#allow mm-qcamerad mm-qcamerad_exec:file rx_file_perms;
+#allow mm-qcamerad system_file:file rx_file_perms;
+

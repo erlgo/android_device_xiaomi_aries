@@ -1,0 +1,6 @@
+allow untrusted_app cm_weather_service:service_manager { find };
+allow untrusted_app sysfs:file { getattr read open };
+allow untrusted_app rootfs:dir { open read };
+allow untrusted_app device:dir { read open };
+allow untrusted_app block_device:dir { read open };
+#allow untrusted_app fuse_device:chr_file { getattr };
