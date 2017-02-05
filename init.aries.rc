@@ -27,7 +27,7 @@ on early-init
 on init
     
     # Use this trick to get a running rild
-    #export LD_PRELOAD "/system/lib/libshim_boringssl.so"
+    export LD_PRELOAD "/system/lib/libboringssl-compat.so"
     export LD_SHIM_LIBS "/system/lib/libril.so|libril_shim.so"
 
     # Set permissions for persist partition

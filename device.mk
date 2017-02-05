@@ -220,12 +220,15 @@ PRODUCT_PACKAGES += \
 #PRODUCT_COPY_FILES += \
 #        device/lge/mako/gps.conf:system/etc/gps.conf
 
+# BoringSSL compatability wrapper
+PRODUCT_PACKAGES += \
+    libboringssl-compat \
+    libstlport
+
 # RIL
 PRODUCT_PACKAGES += \
 	hci_qcomm_init \
-	libshim_boringssl \
 	libril_shim \
-	libstlport \
 	libxml2 \
 	libqsap_sdk \
 	telephony-ext
