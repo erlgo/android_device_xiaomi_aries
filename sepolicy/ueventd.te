@@ -1,0 +1,7 @@
+allow ueventd { radio_efs_file wifi_data_file }:dir search;
+allow ueventd { radio_efs_file wifi_data_file }:file r_file_perms;
+allow ueventd sysfs_hardware:file { write open };
+
+# for modem_wait
+allow radio_device sysfs:filesystem associate;
+allow ueventd radio_device:file relabelto;

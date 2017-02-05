@@ -1,0 +1,15 @@
+# TimeDaemon executables and scripts
+type time_daemon, domain;
+type time_daemon_exec, exec_type, file_type;
+
+# Start time_daemon from init
+init_daemon_domain(time_daemon)
+
+allow time_daemon self:capability { setuid setgid };
+allow time_daemon self:socket { read create ioctl };
+allow time_daemon alarm_device:chr_file write;
+allow time_daemon shared_log_device:chr_file { ioctl open read write };
+allow time_daemon rtc_device:chr_file { read ioctl open };
+allow time_daemon system_data_file:file { write open };
+
+allow time_daemon self:process execmem;

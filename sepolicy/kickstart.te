@@ -1,55 +1,43 @@
-# mdm_helper processes and scripts (system process)
+# kickstart processes and scripts (system process)
+type kickstart, domain;
+type kickstart_exec, file_type, exec_type;
+
+init_daemon_domain(kickstart)
 
 # Spawn /system/bin/efsks and /system/bin/ks
-allow mdm_helper mdm_helper_exec:file { open execute_no_trans getattr };
+allow kickstart kickstart_exec:file { open execute_no_trans getattr };
+
+# Let qcks access /dev/mdm node (modem driver)
+allow kickstart radio_device:chr_file r_file_perms;
+
+# Access USB host ks bridge drivers
+allow kickstart kickstart_device:chr_file rw_file_perms;
+
+# Read and write to /dev/block/mmcblk0p[89]
+allow kickstart efs_block_device:blk_file rw_file_perms;
+allow kickstart block_device:dir { getattr write search };
+
+# Write contents of block device to kickstart data dir
+allow kickstart kickstart_data_file:file create_file_perms;
+allow kickstart kickstart_data_file:dir rw_dir_perms;
+
+# Read radio firmware file(s)
+allow kickstart radio_efs_file:dir search;
+allow kickstart radio_efs_file:file r_file_perms;
 
 # Run dd from toolbox on firmware files
-allow mdm_helper shell_exec:file rx_file_perms;
-allow mdm_helper system_file:file execute_no_trans;
-allow mdm_helper toolbox_exec:file rx_file_perms;
+allow kickstart shell_exec:file rx_file_perms;
+allow kickstart system_file:file execute_no_trans;
 
-#block_suspend capability is needed by kickstart(ks)
-wakelock_use(mdm_helper)
+# Wake lock access
+wakelock_use(kickstart)
 
-#Needed to power on the peripheral
-allow mdm_helper ssr_device:chr_file r_file_perms;
+# Read tombstones
+allow kickstart tombstone_data_file:dir r_dir_perms;
+allow kickstart tombstone_data_file:file r_file_perms;
 
-#Needed for communication with the HSIC driver
-r_dir_file(mdm_helper, sysfs_hsic)
-allow mdm_helper sysfs_hsic:file w_file_perms;
+# Investigate denial on system_data_file:dir.
+allow kickstart system_data_file:dir { write add_name remove_name };
+auditallow kickstart system_data_file:dir { write add_name remove_name };
 
-# for qcks
-allow mdm_helper toolbox_exec:file { getattr read open execute execute_no_trans };
-
-allow mdm_helper_exec sysfs_devices_system_cpu:file { getattr open read };
-allow mdm_helper_exec sysfs_devices_system_cpu:dir { search };
-allow mdm_helper_exec mdm_helper_exec:dir { search  };
-allow mdm_helper_exec mdm_helper_exec:file { getattr read execute open execute_no_trans };
-allow mdm_helper_exec properties_serial:file { getattr open read };
-allow mdm_helper_exec property_contexts:file { read open getattr };
-
-# Read and write to /dev/block/mmcblk0p12,13,16
-allow mdm_helper efs_boot_dev:blk_file rw_file_perms;
-allow mdm_helper block_device:dir { getattr write search };
-
-#Needed to detect presence of hsic bridge and to xfer images
-allow mdm_helper ksbridgehsic_device:chr_file rw_file_perms;
-
-#Needed to detect efs sync and for kickstart to run the efs sync server
-allow mdm_helper efsbridgehsic_device:chr_file rw_file_perms;
-
-
-#Needed to inform the hsic driver that mdm has booted up
-allow mdm_helper sysfs:file w_file_perms;
-
-#Needed in order to access the firmware partition
-r_dir_file(mdm_helper, firmware_file)
-
-#Needed in order to collect ramdumps
-allow mdm_helper tombstone_data_file:dir create_dir_perms;
-allow mdm_helper tombstone_data_file:file create_file_perms;
-
-allow mdm_helper sysfs_wake_lock:file { read write };
-allow mdm_helper tmpfs:dir { write add_name remove_name };
-
-
+allow kickstart self:process execmem;

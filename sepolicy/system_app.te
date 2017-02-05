@@ -1,3 +1,8 @@
-allow platform_app platform_app:process { ptrace };
-allow mediacodec activity_service:service_manager { find };
-allow radio system_app_data_file:dir { getattr };
+allow system_app sysfs_hardware:file rw_file_perms;
+allow system_app pps_socket:sock_file rw_file_perms;
+allow system_app ctl_ppd_prop:property_service set;
+
+# FMRadio
+allow system_app fm_device:chr_file { read ioctl open };
+allow system_app ctl_fmdl_prop:property_service set;
+allow system_app hw_fm_prop:property_service set;

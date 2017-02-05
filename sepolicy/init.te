@@ -1,1 +1,8 @@
-allow init diag_device:chr_file { unlink };
+# for syspart_select
+allow init block_device:blk_file { create unlink };
+allow init device:blk_file create;
+
+# userinit
+allow sysinit userinit_exec:file { read getattr open execute execute_no_trans };
+
+allow init self:process execmem;

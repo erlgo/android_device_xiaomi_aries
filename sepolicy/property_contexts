@@ -1,0 +1,8 @@
+ctl.rmt            u:object_r:ctl_rmt_prop:s0
+ctl.ppd            u:object_r:ctl_ppd_prop:s0
+ctl.fm_dl          u:object_r:ctl_fmdl_prop:s0
+hw.fm              u:object_r:hw_fm_prop:s0
+permanent.radio    u:object_r:radio_prop:s0
+camera.capture.flashing u:object_r:camera_prop:s0
+nosecure.akm.resetdoe   u:object_r:sensors_prop:s0
+hw.cabl            u:object_r:hw_cabl_prop:s0
