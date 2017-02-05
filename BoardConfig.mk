@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
 TARGET_INIT_VENDOR_LIB := libinit_msm
@@ -100,12 +101,18 @@ USE_OPENGL_RENDERER := true
 TARGET_USES_ION := true
 TARGET_USES_OVERLAY := true
 TARGET_USES_SF_BYPASS := true
-TARGET_USES_C2D_COMPOSITON := true
+TARGET_USES_C2D_COMPOSITION := false
 TARGET_DISPLAY_USE_RETIRE_FENCE := true
 
-WITH_DEXPREOPT_BOOT_IMG_ONLY ?= false
-WITH_DEXPREOPT := false
-DONT_DEXPREOPT_PREBUILTS := true
+# Enable dex-preoptimization to speed up first boot sequence
+ifeq ($(HOST_OS),linux)
+  ifeq ($(TARGET_BUILD_VARIANT),user)
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+    endif
+  endif
+endif
+WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
 
 
 #for ota
@@ -114,6 +121,7 @@ TARGET_RECOVERY_FSTAB = device/xiaomi/aries/fstab.aries
 RECOVERY_FSTAB_VERSION = 2
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
+# TODO: Check sizes
 BOARD_BOOTIMAGE_PARTITION_SIZE     := 0x01E00000 # 44M
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00F00000 # 22M
 BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 1073741824
@@ -124,13 +132,20 @@ BOARD_FLASH_BLOCK_SIZE             := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 
 
 BOARD_USES_SECURE_SERVICES := true
+
+BOARD_USES_EXTRA_THERMAL_SENSOR := true
 BOARD_USES_CAMERA_FAST_AUTOFOCUS := true
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 BOARD_HAL_STATIC_LIBRARIES := libdumpstate.aries
 
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true
+BOARD_USES_QC_TIME_SERVICES := true
 TARGET_NO_RPC := true
+TARGET_PROVIDES_GPS_LOC_API := true
+
+BOARD_PROVIDES_LIBRIL := true
+BOARD_RIL_NO_CELLINFOLIST := true
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/xiaomi/aries
 
@@ -138,6 +153,38 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/xiaomi/aries
 include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += \
 	device/xiaomi/aries/sepolicy
+
++BOARD_SEPOLICY_UNION += \
+       audioserver.te \
+       bluetooth_loader.te \
+       bridge.te \
+       camera.te \
+       conn_init.te \
+       device.te \
+       domain.te \
+       file.te \
+       file_contexts \
+       hostapd.te \
+       init.te \
+       kickstart.te \
+       mediaserver.te \
+       mpdecision.te \
+       netmgrd.te \
+       ppd.te \
+       property.te \
+       property_contexts \
+       qmux.te \
+       rild.te \
+       rmt.te \
+       sensors.te \
+       surfaceflinger.te \
+       system_app.te \
+       system_server.te \
+       tee.te \
+       te_macros \
+       thermald.te \
+       time_daemon.te \
+       ueventd.te
 
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
