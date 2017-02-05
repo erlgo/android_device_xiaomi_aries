@@ -1,5 +1,5 @@
 # remote storage process (runs as nobody)
-type rmt, domain, rmt_placeholder;
+type rmt, rmt_placeholder, domain, domain_deprecated;
 type rmt_exec, exec_type, file_type;
 
 # Started by init

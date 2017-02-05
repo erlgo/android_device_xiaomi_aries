@@ -1,5 +1,5 @@
 # TimeDaemon executables and scripts
-type time_daemon, domain;
+type time_daemon, domain, domain_deprecated;
 type time_daemon_exec, exec_type, file_type;
 
 # Start time_daemon from init

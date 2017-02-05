@@ -1,4 +1,4 @@
-type ppd, domain;
+type ppd, domain, domain_deprecated;
 type ppd_exec, exec_type, file_type;
 
 # Started by init
