@@ -224,7 +224,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	hci_qcomm_init \
 	libshim_boringssl \
-	libshim_ril \
+	libril_shim \
 	libstlport \
 	libxml2 \
 	libqsap_sdk \
