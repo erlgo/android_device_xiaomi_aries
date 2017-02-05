@@ -14,7 +14,4 @@ type efs_block_device, dev_type;
 # Shared memory logger
 type shared_log_device, dev_type;
 
-# RTC devices
-type rtc_device, dev_type;
-
 type power_control_device, dev_type;
