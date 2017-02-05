@@ -10,6 +10,5 @@ allow time_daemon self:socket { read create ioctl };
 allow time_daemon alarm_device:chr_file write;
 allow time_daemon shared_log_device:chr_file { ioctl open read write };
 allow time_daemon rtc_device:chr_file { read ioctl open };
-allow time_daemon system_data_file:file { write open };
 
 allow time_daemon self:process execmem;
