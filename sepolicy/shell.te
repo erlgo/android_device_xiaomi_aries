@@ -1,0 +1,2 @@
+allow shell sudaemon:unix_stream_socket connectto;
+allow shell superuser_device:sock_file write;

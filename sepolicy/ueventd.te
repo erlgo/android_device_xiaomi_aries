@@ -1,0 +1,1 @@
+allow ueventd hsic_device:chr_file { relabelfrom relabelto };

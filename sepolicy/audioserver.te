@@ -2,3 +2,4 @@ allow audioserver self:socket { create ioctl read };
 allow audioserver qmuxd_socket:dir { add_name remove_name write search };
 allow audioserver qmuxd_socket:sock_file { create write setattr unlink };
 allow audioserver qmuxd:unix_stream_socket connectto;
+allow audioserver device:chr_file { ioctl open read write };
