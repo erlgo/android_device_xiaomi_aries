@@ -1,3 +1,7 @@
 # mm-qcamera-daem need exemod
-allow mm-qcamerad mm-qcamerad_exec:file execmod;
-allow mm-qcamerad system_file:file execmod;
+#allow mm-qcamerad mm-qcamerad_exec:file execmod;
+#allow mm-qcamerad system_file:file execmod;
+
+# Fix this:
+#libsepol.report_failure: neverallow on line 437 of system/sepolicy/domain.te (or line 9338 of policy.conf) violated by allow mm-qcamerad mm-qcamerad_exec:file { execmod };
+#libsepol.report_failure: neverallow on line 265 of system/sepolicy/domain.te (or line 9154 of policy.conf) violated by allow audioserver device:chr_file { read write open };
