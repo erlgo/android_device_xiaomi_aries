@@ -79,12 +79,12 @@ static int amp_set_input_devices(amplifier_device_t *device, uint32_t devices)
 	uint32_t new_in_snd_device = SND_DEVICE_NONE;
 	uint32_t new_out_snd_device = SND_DEVICE_NONE;
 
-	if (snd_device != 0) {
-		if (snd_device >= SND_DEVICE_OUT_BEGIN
-		    && snd_device < SND_DEVICE_OUT_END)
-			new_out_snd_device = snd_device;
+	if (devices != 0) {
+		if (devices >= SND_DEVICE_OUT_BEGIN
+		    && devices < SND_DEVICE_OUT_END)
+			new_out_snd_device = devices;
 		else
-			new_in_snd_device = snd_device;
+			new_in_snd_device = devices;
 
 		if (new_in_snd_device != in_snd_device
 		    || new_out_snd_device != out_snd_device) {
@@ -103,12 +103,12 @@ static int amp_set_output_devices(amplifier_device_t *device, uint32_t devices)
 	uint32_t new_in_snd_device = SND_DEVICE_NONE;
 	uint32_t new_out_snd_device = SND_DEVICE_NONE;
 
-	if (snd_device != 0) {
-		if (snd_device >= SND_DEVICE_OUT_BEGIN
-		    && snd_device < SND_DEVICE_OUT_END)
-			new_out_snd_device = snd_device;
+	if (devices != 0) {
+		if (devices >= SND_DEVICE_OUT_BEGIN
+		    && devices < SND_DEVICE_OUT_END)
+			new_out_snd_device = devices;
 		else
-			new_in_snd_device = snd_device;
+			new_in_snd_device = devices;
 
 		if (new_in_snd_device != in_snd_device
 		    || new_out_snd_device != out_snd_device) {
