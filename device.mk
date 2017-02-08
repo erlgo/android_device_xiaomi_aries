@@ -176,6 +176,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
 	audio.primary.msm8960 \
+	audio_amplifier.msm8960 \
 	audio.a2dp.default \
 	audio.usb.default \
 	audio.r_submix.default \
