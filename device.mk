@@ -128,15 +128,16 @@ PRODUCT_PACKAGES += \
 	wcnss_service
 
 # Audio Configuration
-# FIXME: Remove persist.audio.handset.mic and persist.audio.fluence.mode
-#        while switching new audio HAL from legacy HAL
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.audio.handset.mic.type=digital \
-	persist.audio.dualmic.config=endfire \
-	persist.audio.fluence.voicecall=true \
-	persist.audio.handset.mic=dmic \
 	persist.audio.fluence.mode=endfire \
-	persist.audio.lowlatency.rec=false
+	persist.audio.fluence.voicecall=true \
+	persist.audio.fluence.speaker=true \
+	persist.audio.vr.enable=false \
+	persist.audio.handset.mic=digital \
+	persist.audio.lowlatency.rec=false \
+	persist.audio.vns.mode=2 \
+	persist.audio.ignore_acdb_mic=true \
+	persist.audio.voice_out_in_comm=true
 
 #
 # Disable boot timeout for external modems.
