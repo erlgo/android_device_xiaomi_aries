@@ -54,7 +54,6 @@ static unsigned int dwOldPreset = -1;
 
 static audio_mode_t mMode = AUDIO_MODE_NORMAL;
 static uint32_t in_snd_device = SND_DEVICE_NONE;
-static uint32_t out_snd_device = SND_DEVICE_NONE;
 
 static const char *es310_getNameByPresetID(int presetID)
 {
@@ -469,9 +468,7 @@ static int amp_set_output_devices(amplifier_device_t *device, uint32_t devices)
 {
 	aries_device_t *dev = (aries_device_t *) device;
 
-	if (devices != 0 && devices != out_snd_device) {
-		// TODO: Fix redundancy
-		out_snd_device = devices;
+	if (devices != 0 && devices != dev->current_output_devices) {
 		dev->current_output_devices = devices;
 
 		es310_do_route();
