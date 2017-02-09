@@ -40,6 +40,8 @@
 
 typedef struct aries_device {
     amplifier_device_t amp_dev;
+    uint32_t current_input_devices;
+    uint32_t current_output_devices;
     audio_mode_t current_mode;
 } aries_device_t;
 
@@ -438,6 +440,7 @@ static int amp_set_mode(amplifier_device_t *device, audio_mode_t mode)
 	} else {
 		if (mMode != mode || dev->current_mode != mode) {
 			ALOGD("%s: mode: %d->%d\n", __func__, dev->current_mode, mode);
+			// TODO: Fix redundancy
 			mMode = mode;
 			dev->current_mode = mode;
 			es310_do_route();
@@ -449,16 +452,14 @@ static int amp_set_mode(amplifier_device_t *device, audio_mode_t mode)
 
 static int amp_set_input_devices(amplifier_device_t *device, uint32_t devices)
 {
-	uint32_t new_in_snd_device = SND_DEVICE_NONE;
+	aries_device_t *dev = (aries_device_t *) device;
 
-	if (devices != 0) {
-		new_in_snd_device = devices;
+	if (devices != 0 && devices != in_snd_device) {
+		// TODO: Fix redundancy
+		in_snd_device = devices;
+		dev->current_input_devices = devices;
 
-		if (new_in_snd_device != in_snd_device) {
-			in_snd_device = new_in_snd_device;
-
-			es310_do_route();
-		}
+		es310_do_route();
 	}
 
 	return 0;
@@ -466,16 +467,14 @@ static int amp_set_input_devices(amplifier_device_t *device, uint32_t devices)
 
 static int amp_set_output_devices(amplifier_device_t *device, uint32_t devices)
 {
-	uint32_t new_out_snd_device = SND_DEVICE_NONE;
+	aries_device_t *dev = (aries_device_t *) device;
 
-	if (devices != 0) {
-		new_out_snd_device = devices;
+	if (devices != 0 && devices != out_snd_device) {
+		// TODO: Fix redundancy
+		out_snd_device = devices;
+		dev->current_output_devices = devices;
 
-		if (new_out_snd_device != out_snd_device) {
-			out_snd_device = new_out_snd_device;
-
-			es310_do_route();
-		}
+		es310_do_route();
 	}
 
 	return 0;
@@ -523,6 +522,8 @@ static int amp_module_open(const hw_module_t *module, UNUSED const char *name,
 	aries_dev->amp_dev.output_stream_standby = NULL;
 	aries_dev->amp_dev.input_stream_standby = NULL;
 
+	aries_dev->current_input_devices = SND_DEVICE_NONE;
+	aries_dev->current_output_devices = SND_DEVICE_NONE;
 	aries_dev->current_mode = AUDIO_MODE_NORMAL;
 
 	*device = (hw_device_t *) aries_dev;
