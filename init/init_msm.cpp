@@ -178,11 +178,12 @@ void set_hdmi_node_perms()
 
 static int check_rlim_action()
 {
-    string pval;
+    char pval[PROP_VALUE_MAX];
+    int rc;
     struct rlimit rl;
-    pval = property_get("persist.debug.trace");
+    rc = property_get("persist.debug.trace", pval);
 
-    if((strcmp(pval.c_str(),"1") == 0)) {
+    if(rc && (strcmp(pval,"1") == 0)) {
         rl.rlim_cur = RLIM_INFINITY;
         rl.rlim_max = RLIM_INFINITY;
         if (setrlimit(RLIMIT_CORE, &rl) < 0) {

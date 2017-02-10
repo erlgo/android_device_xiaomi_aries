@@ -79,8 +79,8 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
     UNUSED(msm_ver);
     UNUSED(board_type);
 
-    platform = property_get("ro.board.platform");
-    if (!ISMATCH(platform.c_str(), ANDROID_TARGET))
+    rc = property_get("ro.board.platform", platform);
+    if (!rc || !ISMATCH(platform, ANDROID_TARGET))
         return;
 
     /* get raw ID */
