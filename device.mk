@@ -28,14 +28,23 @@ DEVICE_PACKAGE_OVERLAYS := device/xiaomi/aries/overlay
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
-PRODUCT_PACKAGES := \
-    libwpa_client \
-    hostapd \
-    wpa_supplicant \
-    wpa_supplicant.conf
+PRODUCT_PACKAGES += \
+	lights.aries \
+	libwpa_client \
+	hostapd \
+	dhcpcd.conf \
+	wpa_supplicant \
+	wpa_supplicant.conf
 
 PRODUCT_PACKAGES += \
-	lights.msm8960
+	charger_res_images
+
+# Live Wallpapers
+PRODUCT_PACKAGES += \
+	LiveWallpapers \
+	LiveWallpapersPicker \
+	VisualizationWallpapers \
+	librs_jni
 
 PRODUCT_COPY_FILES += \
 	device/xiaomi/aries/WCNSS_cfg.dat:system/vendor/firmware/wlan/prima/WCNSS_cfg.dat \
@@ -53,7 +62,6 @@ PRODUCT_COPY_FILES += \
 	device/xiaomi/aries/thermald_l.conf:system/etc/thermald-8064.conf
 #	device/xiaomi/aries/thermald_h.conf:system/etc/thermald_h.conf \
 #	device/xiaomi/aries/thermald_l.conf:system/etc/thermald_l.conf \
-
 
 PRODUCT_COPY_FILES += \
 	device/xiaomi/aries/init.aries.rc:root/init.aries.rc \
@@ -79,10 +87,10 @@ PRODUCT_COPY_FILES += \
 	device/xiaomi/aries/hs_detect.kcm:system/usr/keychars/hs_detect.kcm \
 	device/xiaomi/aries/keypad_8064.kcm:system/usr/keychars/keypad_8064.kcm \
 	device/xiaomi/aries/pmic8xxx_pwrkey.kcm:system/usr/keychars/pmic8xxx_pwrkey.kcm
+
 # Charger
 PRODUCT_COPY_FILES += \
-    device/xiaomi/aries/chargeonlymode:root/sbin/chargeonlymode
-    
+	device/xiaomi/aries/chargeonlymode:root/sbin/chargeonlymode
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
@@ -160,7 +168,6 @@ PRODUCT_CHARACTERISTICS := nosdcard
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_PACKAGES += \
-	librs_jni \
 	com.android.future.usb.accessory
 
 # Filesystem management tools
@@ -219,13 +226,13 @@ PRODUCT_PACKAGES += \
 	libc2dcolorconvert
 
 # GPS configuration
-#PRODUCT_COPY_FILES += \
-#        device/lge/mako/gps.conf:system/etc/gps.conf
+PRODUCT_COPY_FILES += \
+        device/xiaomi/aries/gps.conf:system/etc/gps.conf
 
 # BoringSSL compatability wrapper
 PRODUCT_PACKAGES += \
-    libboringssl-compat \
-    libstlport
+	libboringssl-compat \
+	libstlport
 
 # RIL
 PRODUCT_PACKAGES += \
@@ -276,7 +283,27 @@ PRODUCT_PACKAGES += \
 	resize2fs_static
 	
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	rild.libpath=/system/vendor/lib/libril-qc-qmi-1.so
+	rild.libpath=/system/vendor/lib/libril-qc-qmi-1.so \
+	rild.libargs=-d /dev/smd0 \
+	persist.rild.nitz_plmn= \
+	persist.rild.nitz_long_ons_0= \
+	persist.rild.nitz_long_ons_1= \
+	persist.rild.nitz_long_ons_2= \
+	persist.rild.nitz_long_ons_3= \
+	persist.rild.nitz_short_ons_0= \
+	persist.rild.nitz_short_ons_1= \
+	persist.rild.nitz_short_ons_2= \
+	persist.rild.nitz_short_ons_3=
+
+#system prop for switching gps driver to qmi
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+	persist.gps.qmienabled=true
+
+#
+# System prop for sending transmit power request to RIL during WiFi hotspot on/off
+#
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+	ro.ril.transmitpower=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	telephony.lteOnCdmaDevice=0
@@ -321,5 +348,23 @@ PRODUCT_PACKAGES += \
 # Unbreak videorecording with Snap Camera
 PRODUCT_PROPERTY_OVERRIDES += \
 	persist.camera.cpp.duplication=false
+
+#
+#snapdragon value add features
+#
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.qc.sdk.audio.ssr=false \
+	ro.qc.sdk.audio.fluencetype=fluence \
+	ro.qc.sdk.camera.facialproc=true \
+	ro.qc.sdk.gestures.camera=false \
+	ro.qc.sdk.sensors.gestures=false
+
+#property to force camera shutter sound on speaker
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.camera.sound.forced=1
+
+# power mode
+PRODUCT_PROPERTY_OVERRIDES += \
+	persist.sys.aries.power_profile=middle
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
