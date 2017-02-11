@@ -1,3 +1,3 @@
 # mm-qcamera-daem need exemod
-allow mm-qcamerad mm-qcamerad_exec:file execmod;
-allow mm-qcamerad system_file:file execmod;
+#allow mm-qcamerad mm-qcamerad_exec:file execmod;
+#allow mm-qcamerad system_file:file execmod;
