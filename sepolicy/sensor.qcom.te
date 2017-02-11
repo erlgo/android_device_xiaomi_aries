@@ -1,2 +1,0 @@
-allow sensors persist_misc_file:dir { read open getattr search };
-allow sensors persist_misc_file:file { read write open getattr };

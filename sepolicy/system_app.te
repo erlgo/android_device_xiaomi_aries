@@ -1,3 +1,2 @@
 allow platform_app platform_app:process { ptrace };
-allow mediacodec activity_service:service_manager { find };
 allow radio system_app_data_file:dir { getattr };
