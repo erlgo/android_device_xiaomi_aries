@@ -32,6 +32,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <linux/msm_ion.h>
 #include <linux/videodev2.h>
 #include <media/msm_camera.h>
+#include <media/msm_camera_aries.h>
 #include "QCamera_Intf.h"
 #include "mm_omx_jpeg_encoder.h"
 
