@@ -361,4 +361,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.aries.power_profile=middle
 
+ifneq ($(TARGET_BUILD_VARIANT),user)
+    WITH_SU := true
+endif
+
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
