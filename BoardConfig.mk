@@ -45,7 +45,6 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=aries lpj=67677 user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 lge.kcal=0|0|0|x
 BOARD_KERNEL_CMDLINE += earlyprintk=serial,ttyHSL0,115200,n8
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-BOARD_KERNEL_CMDLINE += androidboot.llcon=2,100,0,0x00,24,1280,720,720,8,0
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 
 # Inline kernel building
