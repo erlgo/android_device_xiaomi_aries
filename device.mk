@@ -55,6 +55,9 @@ PRODUCT_COPY_FILES += \
 	device/xiaomi/aries/audio_policy.conf:system/etc/audio_policy.conf
 
 PRODUCT_COPY_FILES += \
+	device/xiaomi/aries/audio_platform_info.xml:system/etc/audio_platform_info.xml
+
+PRODUCT_COPY_FILES += \
 	device/xiaomi/aries/mixer_paths.xml:system/etc/mixer_paths.xml
 
 # thermald-engine
