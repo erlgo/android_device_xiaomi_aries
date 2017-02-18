@@ -34,7 +34,6 @@
 #include <pthread.h>
 #include <inttypes.h>
 #include <media/msm_camera.h>
-#include <media/msm_camera_aries.h>
 
 #define PAD_TO_WORD(a)               (((a)+3)&~3)
 #define PAD_TO_2K(a)                 (((a)+2047)&~2047)
