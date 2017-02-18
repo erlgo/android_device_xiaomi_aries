@@ -72,6 +72,7 @@ static int read_file2(const char *fname, char *data, int max_size)
 void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *board_type)
 {
     char platform[PROP_VALUE_MAX];
+    char value[PROP_VALUE_MAX];
     int rc;
     unsigned long raw_id = -1;
 
@@ -82,6 +83,12 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
     rc = property_get("ro.board.platform", platform);
     if (!rc || !ISMATCH(platform, ANDROID_TARGET))
         return;
+
+    rc = property_get("ro.boot.llcon", value);
+    if (rc > 0) {
+        if (value[0] != '0')
+            property_set("debug.sf.nobootanimation", "1");
+    }
 
     /* get raw ID */
     rc = read_file2(RAW_ID_PATH, tmp, sizeof(tmp));
